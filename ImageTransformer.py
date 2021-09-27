@@ -6,6 +6,14 @@ from argparse import ArgumentParser
 
 
 def processing(filepath:str)->list:
+    """
+    Image processing
+    Args:
+        filepath(str): Path to img
+    Return:
+        list[PIL.Image]: List with images.
+    """
+    
     img = Image.open(filepath)
     h, w = img.size
     if h > 512 and w > 512:

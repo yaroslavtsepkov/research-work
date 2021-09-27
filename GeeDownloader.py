@@ -6,7 +6,13 @@ from tqdm.auto import tqdm
 ee.Initialize()
 
 def filterCollection(bands:tuple):
-    """  """
+    """
+    Filtering out Image collection 
+        Args:
+            bands(tuple[str]): bands from satelite image.
+        Return:
+            None.
+    """
     roi = ee.Geometry.Polygon([[[94.96582, 28.470622],
     [92.434571, 26.867201],
     [85.561523, 27.164739],
@@ -31,9 +37,19 @@ def filterCollection(bands:tuple):
         .select(B1,B2,B3)
     return collection
 
-def exportDatasets(collections, paths):
+def exportDatasets(collections, paths:str):
+    """ 
+    Export filtered collection to tif files.
+    Args:
+        collection (tuple or list ee.ImageCollection): Image collection for export.
+        path(str): path to directory. 
+    Return:
+        None
+    """
+
     for collection, dir_out in zip(collections,paths):
         geemap.ee_export_image_collection(collection,dir_out)
+
 def main():
     bands = [("TCI_R","TCI_G","TCI_B")]
     paths = ["DATA/TIBET_BANDS_TCI"]
