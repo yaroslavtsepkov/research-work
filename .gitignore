@@ -2,3 +2,4 @@ DATA/*
 OUTPUT/*
 .ipynb_checkpoints
 __pycache__
+*.csv
