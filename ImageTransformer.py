@@ -15,6 +15,7 @@ def processing(filepath:str)->list:
     """
     
     img = Image.open(filepath)
+    img = img.convert("RGB")
     h, w = img.size
     if h > 512 and w > 512:
         img = T.CenterCrop((h//2,w//2))(img)
@@ -24,8 +25,8 @@ def processing(filepath:str)->list:
     
 def main():
     parser = ArgumentParser()
-    parser.add_argument("--path", default="/home/yaroslav/repos/research-work/DATA/TIBET_BANDS_B", help="path to dir with images", type=str)
-    parser.add_argument("--ext", help="png, jpeg, tif, ...", type=str)
+    parser.add_argument("--path", default="/home/yaroslav/repos/research-work/DATA/TIBET_BANDS_TCI", help="path to dir with images", type=str)
+    parser.add_argument("--ext", default="tif", help="png, jpeg, tif, ...", type=str)
     parser.add_argument("--opath", default = "/home/yaroslav/repos/research-work/DATA/TIBET", help="output path ti dir", type=str)
     args = parser.parse_args()
 
@@ -39,7 +40,7 @@ def main():
         try:
             for idx,img in enumerate(imgs):
                 filename,ext = os.path.splitext(pathfile)
-                filename += f"_PROCESSED_{idx}{ext}"
+                filename += f"_PROCESSED_{idx}.png"
                 opath = f"{args.opath}/{filename}"
                 # print(opath)
                 img.save(opath)
