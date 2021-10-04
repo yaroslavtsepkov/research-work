@@ -19,8 +19,14 @@ def processing(filepath:str)->list:
     h, w = img.size
     if h > 512 and w > 512:
         img = T.CenterCrop((h//2,w//2))(img)
-        imgs = [T.RandomCrop(256)(img) for _ in range(10)]
-        imgs = [T.RandomVerticalFlip()(img) for img in imgs]
+        transformer = T.Compose(
+            [
+                T.RandomVerticalFlip(),
+                T.RandomHorizontalFlip(),
+                T.RandomCrop(64)
+            ]
+        )
+        imgs = [transformer(img) for _ in range(300)]
         return imgs
     
 def main():
@@ -42,10 +48,10 @@ def main():
                 filename,ext = os.path.splitext(pathfile)
                 filename += f"_PROCESSED_{idx}.png"
                 opath = f"{args.opath}/{filename}"
-                # print(opath)
                 img.save(opath)
-        except:
-            pass
+                
+        except Exception as e:
+            print(e)
     
 
 if __name__ == "__main__":
